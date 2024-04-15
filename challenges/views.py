@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponse , HttpResponseNotFound , HttpResponseRedirect
+from django.template.loader import render_to_string;
 monthly_challenges = {
     'january':"this Month is January ",
     'february':"this Month is february ",
     'march':"this Month is march ",
     'april':"this Month is April ",
+    'october':None,
 }
 
 # Create your views here.
@@ -46,6 +48,30 @@ def month_by_number(request,month) :
     redirect_path= reverse('monthly_challenge',args=[month_str]) # /challenges/january
     # return HttpResponseRedirect('/challenges/'+ monthes_list[month-1])
     return HttpResponseRedirect(redirect_path)
+def test_page(request) :
+    months=list(monthly_challenges.keys())
+    list_month=''
+    for month in months:
+        list_month+=f"<a href='{month}'><h1>{month}</h1></a>"
+    return HttpResponse(list_month)
+def test_html(request,month) :
+            try :
+              text_month=monthly_challenges[month]
+            #   response= render_to_string('challenges/challenge.html')
+              return render(request,'challenges/challenge.html',{
+                   'text' : text_month ,
+                   'month_name' : month.capitalize() 
+              })
+            #   return HttpResponse(response)
+            except :
+                 return HttpResponseRedirect('/challenges/'+ month)
+            
+
+def list_monthes(request) :
+     list_monthes=list(monthly_challenges.keys())
+     return render (request,'challenges/index.html',{
+          'monthes':list_monthes
+     })
 
 
  

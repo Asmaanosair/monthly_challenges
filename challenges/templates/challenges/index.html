@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <title>
+            All Monthes
+        </title>
+    </head>
+    <body>
+        <ul>
+            {% for month in monthes %}
+            {% if month is not None %}
+            <li>
+                {% comment %} <a href="/challenges/{{month}}"> {% endcomment %}
+                    <a href="{% url "monthly_challenge" month%}">
+               {{month|title}}
+            </a>
+            </li>
+            
+            {% else %}
+            <li>No month</li>
+            {% endif %}
+          
+            {% endfor %}
+        </ul>
+       
+    </body>
+</html>
